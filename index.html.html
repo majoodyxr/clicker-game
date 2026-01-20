@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>Coin Clicker</title>
+<style>
+body {
+    font-family: Arial;
+    background: #111;
+    color: #fff;
+    text-align: center;
+    margin-top: 80px;
+}
+button {
+    font-size: 20px;
+    padding: 15px 30px;
+    margin: 10px;
+    cursor: pointer;
+}
+#coin {
+    font-size: 40px;
+    margin: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>💰 Coin Clicker</h1>
+<div id="coin">0</div>
+
+<button onclick="clickCoin()">اضغط</button>
+<br>
+<button onclick="upgrade()">ترقية (+1 لكل ضغطة) — السعر: <span id="price">10</span></button>
+
+<script>
+let coins = localStorage.getItem("coins") ? parseInt(localStorage.getItem("coins")) : 0;
+let power = localStorage.getItem("power") ? parseInt(localStorage.getItem("power")) : 1;
+let price = localStorage.getItem("price") ? parseInt(localStorage.getItem("price")) : 10;
+
+updateUI();
+
+function clickCoin() {
+    coins += power;
+    save();
+    updateUI();
+}
+
+function upgrade() {
+    if (coins >= price) {
+        coins -= price;
+        power++;
+        price = Math.floor(price * 1.7);
+        save();
+        updateUI();
+    } else {
+        alert("ما عندك كوينز كفاية 😅");
+    }
+}
+
+function save() {
+    localStorage.setItem("coins", coins);
+    localStorage.setItem("power", power);
+    localStorage.setItem("price", price);
+}
+
+function updateUI() {
+    document.getElementById("coin").innerText = coins;
+    document.getElementById("price").innerText = price;
+}
+</script>
+
+</body>
+</html>
